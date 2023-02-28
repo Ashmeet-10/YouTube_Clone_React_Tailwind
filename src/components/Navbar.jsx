@@ -2,9 +2,12 @@ import React, { useRef } from 'react'
 import Youtube_icon from '../assets/Youtube_icon.svg'
 import { suggestedCategories } from '../utils/constants'
 
-const Navbar = () => {
+const Navbar = (props) => {
+  const { setSidebar } = props
+
   const ref1 = useRef(null)
   const ref2 = useRef(null)
+
   const open_search_bar = () => {
     ref1.current.classList.add('hidden')
     ref2.current.classList.remove('hidden')
@@ -45,9 +48,9 @@ const Navbar = () => {
 
         </div>
       </div>
-      <div className="Suggested-titles bg-[#0f0f0f] text-white h-12 flex items-center px-2 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none]">
+      <div className="Suggested-titles bg-[#0f0f0f] text-white h-12 flex items-center overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none]">
         <div className="flex items-center px-3 py-1 border-gray-700 border-r-[1px]">
-          <span className='flex items-center bg-[#272727] px-3 py-1 rounded-lg cursor-pointer opacity-90'>
+          <span onClick={() => setSidebar('translate-x-0')} className='flex items-center bg-[#272727] px-3 py-1 rounded-lg cursor-pointer opacity-90'>
             <i className="fa-regular fa-compass mr-2"></i> Explore
           </span>
         </div>
