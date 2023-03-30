@@ -13,11 +13,17 @@ const Navbar = (props) => {
   }
   const handleSearchClick = () => {
     if (search !== '') {
-      setHideNavbar(true)
-      fetchFromAPI(`search?query=${search}`)
-        .then((response) => {
-          setVideos(response.data)
-        })
+      (async () => {
+          setHideNavbar(true)
+          const data1 = await fetchFromAPI(`search?query=${search}`)
+          const data2 = await fetchFromAPI(`search?query=${search}&type=channel`)
+          let data3 = await fetchFromAPI(`search?query=${search}&type=playlist`)
+          data3 = (data3.data).slice(0,3)
+          console.log(data3)
+          let arr = (data2.data).slice(0, 0)
+          let newArr = [...arr, ...data3, ...data1.data]
+          setVideos(newArr)
+        })()
     }
   }
 
