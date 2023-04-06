@@ -1,26 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { fetchFromAPI } from '../utils/fetchFromAPI'
-import Loading from './Loading'
-import VideoCard from './VideoCard'
+import { VideoCard, Loading } from './'
+import usePlaylistInfo from '../hooks/usePlaylistInfo'
 
 const PlaylistVideos = () => {
   const { id } = useParams()
-  const [isLoading, setIsLoading] = useState(true)
-  const [playlistsInfo, setPlaylistsInfo] = useState({})
+  const { data:playlistsInfo, status, isError, isLoading } = usePlaylistInfo(id)
   const [playlistDesc, setPlaylistDesc] = useState('line-clamp-2')
-  useEffect(() => {
-    (async () => {
-      setIsLoading(() => true)
-      const data = await fetchFromAPI(`playlist?id=${id}`)
-      setPlaylistsInfo(data)
-      console.log(data)
-      setIsLoading(() => false)
-    })()
-  }, [id])
 
   if (isLoading) {
     return (<Loading classes="h-[100vh] items-center" />)
+  }
+
+  if (isError) {
+    return <span>Error</span>
   }
 
   return (

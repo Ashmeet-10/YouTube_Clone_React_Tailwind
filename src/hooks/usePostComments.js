@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchData } from "../../utils/fetchFromAPI";
+import { fetchData } from "../utils/fetchFromAPI";
 
 export const fetchPostComments = async (postId) => {
     const response = await fetchData(`post/comments?id=${postId}`)
@@ -9,6 +9,6 @@ export const fetchPostComments = async (postId) => {
 export default function usePostComments(postId) {
     return useQuery({
         queryKey: ['postComments', postId],
-        queryFn: fetchCommentsPost(postId),
+        queryFn: () => fetchPostComments(postId),
     })
 }

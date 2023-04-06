@@ -1,44 +1,30 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import ReactPlayer from 'react-player/youtube'
-import { useNavigate } from 'react-router-dom'
-import { fetchFromAPI } from '../utils/fetchFromAPI'
 import { Videos, Comments, Description, Loading } from './'
+import useVideoInfo from '../hooks/useVideoInfo'
+import useChannelAbout from '../hooks/channelHooks/useChannelAbout'
+import useComments from '../hooks/useComments'
 
 const VideoDetail = () => {
   const { id } = useParams()
   const navigate = useNavigate()
+  const { data: videoInfo, isError:isError1, isLoading:isLoading1 } = useVideoInfo(id)
+  const { data: channelDetails, isError:isError2, isLoading:isLoading2 } = useChannelAbout(videoInfo?.channelId, !isLoading1)
+  const { data: comments, isError:isError3, isLoading:isLoading3 } = useComments(id)
   const formatter = Intl.NumberFormat('en', { notation: 'compact' })
   const [videos, setVideos] = useState([])
-  const [videoInfo, setVideoInfo] = useState({})
-  const [channelDetails, setChannelDetails] = useState({})
   const [hideDescription, setHideDescription] = useState(true)
   const [hideComments, setHideComments] = useState(true)
-  const [comments, setComments] = useState({})
-  const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(() => {
-    (async () => {
-      setIsLoading(()=>true)
-      const data1 = await fetchFromAPI(`video/info?id=${id}`)
-      setVideoInfo(data1)
-      console.log(data1)
-      
-      const data2 = await fetchFromAPI(`channel/about?id=${data1.channelId}`)
-      setChannelDetails(data2)
-      console.log(data2)
-      setIsLoading(()=>false)
-
-      const data3 = await fetchFromAPI(`comments?id=${id}`)
-      setComments(data3)
-      console.log(data3)
-    })()
-  }, [id])
-
-  if(isLoading){
-    return <Loading classes="h-[100vh] items-center"/>
+  if (isLoading1 || isLoading2 || isLoading3) {
+    return <Loading classes="h-[100vh] items-center" />
   }
 
+  if (isError1 || isError2 || isError3) {
+    return <span>Error</span>
+  }
+  console.log(videoInfo)
   return (
     <div className='bg-[#0f0f0f] text-white relative'>
       <div className="sticky z-10 top-0 left-0 video-container h-[50vh] border-gray-600 border-b-[1px]">
@@ -83,7 +69,7 @@ const VideoDetail = () => {
         {hideComments === false && hideDescription && <Comments setHideComments={setHideComments} id={id} />}
       </div>
 
-      {hideComments && hideDescription && <Videos videos={videos} setVideos={setVideos} Category={id} />}
+      {hideComments && hideDescription && <Videos videos={videos} setVideos={setVideos} relatedVideoId={id} />}
     </div>
   )
 }

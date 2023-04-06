@@ -1,37 +1,31 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
-import { fetchFromAPI } from '../../utils/fetchFromAPI'
-import Comments from '../Comments'
-import Loading from '../Loading'
-import VideoCard from '../VideoCard'
+import { VideoCard, Comments , Loading } from '../'
+import useChannelPosts from '../../hooks/channelHooks/useChannelPosts'
 
 const Community = () => {
   const { id } = useParams()
+  const { data, status, isError, isLoading } = useChannelPosts(id)
   const ref = useRef(null)
-  const [posts, setPosts] = useState([])
   const [currPostId, setCurrPostId] = useState('')
-  const [isLoading, setIsLoading] = useState(true)
-  const [para, setPara] = useState({})
-  useEffect(() => {
-    (async () => {
-      setIsLoading(() => true)
-      const data = await fetchFromAPI(`channel/community?id=${id}`)
-      setPosts(data.data)
-      console.log(data)
-      let i = 0
-      let obj = {}
-      data.data.forEach(() => {
-        obj[`p${i++}`] = 'line-clamp-4'
-      });
-      setPara(obj)
-      console.log(obj)
-      setIsLoading(() => false)
-    })()
-  }, [id])
+  
+  let obj = {}
+  for(let i=0; i<30; i++){
+    obj[`p${i}`] = 'line-clamp-4'
+  }
+  console.log(obj)
+  const [para, setPara] = useState(obj)
 
   if (isLoading) {
     return (<Loading classes="items-start" />)
   }
+
+  if (isError) {
+    return <span>Error</span>
+  }
+
+  let posts = data.data
+
 
   return (
     <div className='mt-4 px-4 space-y-4 relative'>
@@ -84,13 +78,13 @@ const Community = () => {
                 <i className="fa-regular fa-thumbs-down opacity-80 -scale-x-100"></i>
               </div>
               <div
-                onClick={()=>{
-                  setCurrPostId(()=>post.postId)
-                  if(ref.current.classList.contains('translate-y-[100vh]')){
+                onClick={() => {
+                  setCurrPostId(() => post.postId)
+                  if (ref.current.classList.contains('translate-y-[100vh]')) {
                     ref.current.classList.remove('translate-y-[100vh]')
                     ref.current.classList.add('translate-y-[40vh]')
                   }
-                  else{
+                  else {
                     ref.current.classList.add('translate-y-[100vh]')
                     ref.current.classList.remove('translate-y-[40vh]')
 

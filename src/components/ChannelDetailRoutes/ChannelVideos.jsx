@@ -1,30 +1,24 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useParams } from 'react-router-dom'
-import { fetchFromAPI } from '../../utils/fetchFromAPI'
-import Loading from '../Loading'
-import VideoCard from '../VideoCard'
+import { VideoCard, Loading } from '../'
+import useChannelVideos from '../../hooks/channelHooks/useChannelVideos'
 
 const ChannelVideos = () => {
   const { id } = useParams()
-  const [videos, setVideos] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
-  useEffect(() => {
-    (async () => {
-      setIsLoading(()=>true)
-      const data = await fetchFromAPI(`channel/videos?id=${id}`)
-      setVideos(data.data)
-      console.log(data)
-      setIsLoading(()=>false)
-    })()
-  }, [id])
+  const { data, status, isError, isLoading } = useChannelVideos(id)
 
-  if(isLoading){
-    return (<Loading classes="items-start"/>)
+  if (isLoading) {
+    return (<Loading classes="items-start" />)
   }
+
+  if (isError) {
+    return <span>Error</span>
+  }
+  console.log(data)
 
   return (
     <div className='mt-8 pb-8 px-4 space-y-4 bg-[#0f0f0f]'>
-      {videos?.map((video, idx) => (
+      {data.data.map((video, idx) => (
         <VideoCard key={idx} {...video} channelVideo='true' />
       ))}
     </div>

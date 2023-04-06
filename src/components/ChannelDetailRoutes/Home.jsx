@@ -1,7 +1,5 @@
 import React from 'react'
-import ChannelVideos from './ChannelVideos'
-import FeaturedChannels from './FeaturedChannels'
-import Shorts from './Shorts'
+import { ChannelVideos, FeaturedChannels, Shorts } from './'
 
 const Home = () => {
   return (

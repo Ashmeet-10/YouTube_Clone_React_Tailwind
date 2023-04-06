@@ -1,26 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { fetchFromAPI } from '../../utils/fetchFromAPI'
-import Loading from '../Loading'
+import { Loading } from '../'
+import useChannelShorts from '../../hooks/channelHooks/useChannelShorts'
 
 const Shorts = () => {
   const { id } = useParams()
   const navigate = useNavigate()
-  const [shorts, setShorts] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
-  useEffect(() => {
-    (async () => {
-      setIsLoading(() => true)
-      const data = await fetchFromAPI(`channel/shorts?id=${id}`)
-      setShorts(data.data)
-      console.log(data)
-      setIsLoading(() => false)
-    })()
-  }, [id])
+  const { data, status, isError, isLoading } = useChannelShorts(id)
 
   if (isLoading) {
-    return (<Loading classes="items-start"/>)
+    return (<Loading classes="items-start" />)
   }
+
+  if (isError) {
+    return <span>Error</span>
+  }
+
+  let shorts = data.data
 
   return (
     <div className='flex flex-wrap mt-6 text-white overflow-hidden'>

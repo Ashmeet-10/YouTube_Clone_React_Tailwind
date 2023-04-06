@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { fetchFromAPI } from '../../utils/fetchFromAPI'
-import Loading from '../Loading'
+import { Loading } from '../'
+import useChannelChannels from '../../hooks/channelHooks/useChannelChannels'
 
 const FeaturedChannelsCard = (props) => {
   const navigate = useNavigate()
@@ -23,21 +23,17 @@ const FeaturedChannelsCard = (props) => {
 
 const FeaturedChannels = () => {
   const { id } = useParams()
-  const [channels, setChannels] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
-  useEffect(() => {
-    (async () => {
-      setIsLoading(() => true)
-      const data = await fetchFromAPI(`channel/channels?id=${id}`)
-      setChannels(data.data)
-      console.log(data)
-      setIsLoading(() => false)
-    })()
-  }, [])
+  const { data, status, isError, isLoading } = useChannelChannels(id)
 
   if (isLoading) {
-    return (<Loading classes="items-start"/>)
+    return (<Loading classes="items-start" />)
   }
+
+  if (isError) {
+    return <span>Error</span>
+  }
+
+  const channels = data.data
 
   return (
     <div className='p-4 mt-4'>

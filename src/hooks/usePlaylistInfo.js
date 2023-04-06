@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchData } from "../../utils/fetchFromAPI";
+import { fetchData } from "../utils/fetchFromAPI";
 
 export const fetchPlaylistInfo = async (playlistId) => {
     const response = await fetchData(`playlist?id=${playlistId}`)
@@ -9,6 +9,6 @@ export const fetchPlaylistInfo = async (playlistId) => {
 export default function usePlaylistInfo(playlistId) {
     return useQuery({
         queryKey: ['playlistInfo', playlistId],
-        queryFn: fetchPlaylistInfo(playlistId),
+        queryFn: () => fetchPlaylistInfo(playlistId),
     })
 }

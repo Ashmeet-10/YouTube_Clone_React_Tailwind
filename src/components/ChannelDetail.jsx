@@ -1,35 +1,30 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
 import Youtube_icon from '../assets/Youtube_icon.svg'
-import { fetchFromAPI } from '../utils/fetchFromAPI'
 import { channelTabs } from '../utils/constants'
-import Loading from './Loading'
+import { Loading } from './'
+import useChannelAbout from '../hooks/channelHooks/useChannelAbout'
 
 const ChannelDetail = () => {
   const navigate = useNavigate()
   const { id } = useParams()
-  const [channelDetails, setChannelDetails] = useState({})
+  const { data, status, isError, isLoading } = useChannelAbout(id)
+  let channelDetails = data
   const [channelTab, setChannelTab] = useState('home')
-  const [isLoading, setIsLoading] = useState(true)
-  useEffect(() => {
-    (async () => {
-      setIsLoading(()=>true)
-      const data = await fetchFromAPI(`channel/about?id=${id}`)
-      setChannelDetails(data)
-      console.log(data)
-      setIsLoading(()=>false)
-    })()
-  }, [id])
 
-  if(isLoading){
+  if (isLoading) {
     return <Loading classes="h-[100vh] items-center" />
+  }
+
+  if (isError) {
+    return <span>Error</span>
   }
 
   return (
     <div className='bg-[#0f0f0f] text-white'>
       <div className="flex justify-between items-center px-3 py-2">
         <div className="flex items-center">
-          <img src={Youtube_icon} width="35px" height="35px" alt="" className='inline mr-3 cursor-pointer' onClick={()=>navigate(`/`)} />
+          <img src={Youtube_icon} width="35px" height="35px" alt="" className='inline mr-3 cursor-pointer' onClick={() => navigate(`/`)} />
           <span className='font-semibold line-clamp-1 mx-2'>{channelDetails.title}</span>
         </div>
         <div className="search mr-4">
@@ -49,7 +44,7 @@ const ChannelDetail = () => {
           <span className='mx-3'>{channelDetails.subscriberCountText} Subscribers</span>
           <span>{channelDetails.videosCountText} Videos</span>
         </div>
-        <div className="flex cursor-pointer" onClick={()=>navigate(`/channel/${id}/about`)}>
+        <div className="flex cursor-pointer" onClick={() => navigate(`/channel/${id}/about`)}>
           <p className='text-xs opacity-70 text-center line-clamp-2'>{channelDetails.description}</p>
           <button className='ml-3 text-xl opacity-60'><i className="fa-solid fa-angle-right"></i></button>
         </div>

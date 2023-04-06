@@ -1,26 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { fetchFromAPI } from '../../utils/fetchFromAPI'
-import Loading from '../Loading'
+import { Loading } from '../'
+import useChannelAbout from '../../hooks/channelHooks/useChannelAbout'
 
 const About = () => {
   const { id } = useParams()
-  const [about, setAbout] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
-  useEffect(() => {
-    (async () => {
-      setIsLoading(()=>true)
-      const data = await fetchFromAPI(`channel/about?id=${id}`)
-      setAbout(data)
-      console.log(data)
-      setIsLoading(()=>false)
-    })()
-  }, [id])
+  const { data: about, status, isError, isLoading } = useChannelAbout(id)
 
-  if(isLoading){
-    return (<Loading classes="items-start"/>)
+  if (isLoading) {
+    return (<Loading classes="items-start" />)
+  }
+  if (isError) {
+    return <span>Error</span>
   }
 
+  console.log(about)
   return (
     <div className='mt-4 px-4 pb-4'>
       About

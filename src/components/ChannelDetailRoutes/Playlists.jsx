@@ -1,28 +1,22 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { fetchFromAPI } from '../../utils/fetchFromAPI'
-import Loading from '../Loading'
-import PlaylistCard from '../PlaylistCard'
+import React from 'react'
+import { useParams } from 'react-router-dom'
+import { PlaylistCard, Loading } from '../'
+import useChannelPlaylists from '../../hooks/channelHooks/useChannelPlaylists'
 
 const Playlists = () => {
   const { id } = useParams()
-  const [playlists, setPlaylists] = useState([])
-  const [channelTitle, setChannelTitle] = useState("")
-  const [isLoading, setIsLoading] = useState(true)
-  useEffect(() => {
-    (async () => {
-      setIsLoading(()=>true)
-      const data = await fetchFromAPI(`channel/playlists?id=${id}`)
-      setPlaylists(data.data)
-      setChannelTitle(data.meta.title)
-      console.log(data)
-      setIsLoading(()=>false)
-    })()
-  }, [id])
+  const { data, status, isError, isLoading } = useChannelPlaylists(id)
 
-  if(isLoading){
+  if (isLoading) {
     return (<Loading classes="items-start" />)
   }
+
+  if (isError) {
+    return <span>Error</span>
+  }
+
+  let playlists = data.data
+  let channelTitle = data.meta.title
 
   return (
     <div className='p-4 space-y-3'>

@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { fetchFromAPI } from '../utils/fetchFromAPI'
+import useChannelAbout from '../hooks/channelHooks/useChannelAbout'
+import { Loading } from './'
 
 const Description = (props) => {
   const navigate = useNavigate()
   const { id, setHideDescription, videoInfo, shorts, descRef } = props
-  const [channelDetails, setChannelDetails] = useState({})
+  const { data:channelDetails, status, isError, isLoading } = useChannelAbout(id)
 
-  useEffect(() => {
-    (async () => {
-      const data = await fetchFromAPI(`channel/about?id=${id}`)
-      setChannelDetails(data)
-      console.log(data)
-    })()
-  }, [id])
+  if(isLoading){
+    return <Loading classes="items-start" />
+  }
+
+  if (isError) {
+    return <span>Error</span>
+  }
 
   return (
-    <div className={`description w-screen pb-2 relative px-4 bg-[#212121] text-white ${shorts ? 'h-[60vh] overflow-y-auto' : ''}`}>
+    <div className={`description w-screen pb-2 relative px-4 bg-[#0f0f0f] text-white ${shorts ? 'h-[60vh] overflow-y-auto' : ''}`}>
       <div className="flex justify-between items-center py-4 border-gray-600 border-b-[1px]">
         <span className='text-xl font-bold blur-[0.5px] shadow-white drop-shadow-lg text-white'>Description</span>
         <button

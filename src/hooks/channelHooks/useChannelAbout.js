@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchData } from "../../utils/fetchFromAPI";
 
 export const fetchChannelAbout = async (channelId) => {
+    console.log(channelId)
     const response = await fetchData(`channel/about?id=${channelId}`)
     return response
 }
@@ -9,6 +10,6 @@ export const fetchChannelAbout = async (channelId) => {
 export default function useChannelAbout(channelId) {
     return useQuery({
         queryKey: ['channel', channelId, 'about'],
-        queryFn: fetchChannelAbout(channelId),
+        queryFn: () => fetchChannelAbout(channelId),
     })
 }

@@ -1,22 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import ReactPlayer from 'react-player/youtube'
-import { fetchFromAPI } from '../utils/fetchFromAPI'
-import Comments from './Comments'
-import Description from './Description'
+import { Comments, Description, Loading } from './'
+import useVideoInfo from '../hooks/useVideoInfo'
 
 const ShortsCard = () => {
   const { id } = useParams()   // shorts id
+  const { data: shortsInfo, status, isError, isLoading } = useVideoInfo(id)
   const commentRef = useRef(null)
   const descRef = useRef(null)
-  const [shortsInfo, setShortsInfo] = useState([])
-  useEffect(() => {
-    (async () => {
-      const data = await fetchFromAPI(`video/info?id=${id}`)
-      setShortsInfo(data)
-      console.log(data)
-    })()
-  }, [id])
+
+  if (isLoading) {
+    return (<Loading classes="h-[100vh] items-center" />)
+  }
+
+  if (isError) {
+    return <span>Error</span>
+  }
 
   return (
     <div className='bg-[#212121] text-white relative'>

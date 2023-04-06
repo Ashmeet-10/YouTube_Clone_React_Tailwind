@@ -9,6 +9,6 @@ export const fetchChannelHome = async (channelId) => {
 export default function useChannelHome(channelId) {
     return useQuery({
         queryKey: ['channel', channelId, 'home'],
-        queryFn: fetchChannelHome(channelId),
+        queryFn: () => fetchChannelHome(channelId),
     })
 }

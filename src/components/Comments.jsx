@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from 'react'
-import { fetchFromAPI } from '../utils/fetchFromAPI'
-import Loading from './Loading'
+import React from 'react'
+import { Loading } from './'
+import useComments from '../hooks/useComments'
+import usePostComments from '../hooks/usePostComments'
 
 const Comments = (props) => {
   const { id, setHideComments, shorts, commentRef, post, postCommentRef } = props
-  const [comments, setComments] = useState({})
-  const [isLoading, setIsLoading] = useState(true)
-  useEffect(() => {
-    (async () => {
-      setIsLoading(()=>true)
-      let url = `comments?id=${id}`
-      post ? url = `post/comments?id=${id}` : `comments?id=${id}`
-      const data = await fetchFromAPI(url)
-      setComments(data)
-      console.log(data)
-      setIsLoading(()=>false)
-    })()
-  }, [id])
+  let commentsQuery
+  if (post) {
+    commentsQuery = usePostComments(id)
+  }
+  else {
+    commentsQuery = useComments(id)
+  }
+  const { data: comments, status, isError, isLoading } = commentsQuery
 
-  if(isLoading){
+  if (isLoading) {
     return <Loading classes="h-[60vh]" />
   }
 
+  if (isError) {
+    return <span>Error</span>
+  }
+
   return (
-    <div className={`comment-section items-center relative pt-4 px-2 bg-[#0f0f0f] text-white ${(shorts||post)?'h-[60vh] overflow-y-auto':''}`}>
+    <div className={`comment-section items-center relative pt-4 px-2 bg-[#0f0f0f] text-white ${(shorts || post) ? 'h-[60vh] overflow-y-auto' : ''}`}>
       <div className="flex justify-between items-center pb-4 border-gray-600 border-b-[1px]">
         <span className='text-xl font-bold blur-[0.5px] shadow-white drop-shadow-lg text-white'>Comments</span>
         <button
@@ -32,7 +32,7 @@ const Comments = (props) => {
               commentRef.current.classList.add('translate-y-[100vh]')
               commentRef.current.classList.remove('translate-y-[40vh]')
             }
-            else if(post){
+            else if (post) {
               postCommentRef.current.classList.add('translate-y-[100vh]')
               postCommentRef.current.classList.remove('translate-y-[40vh]')
             }

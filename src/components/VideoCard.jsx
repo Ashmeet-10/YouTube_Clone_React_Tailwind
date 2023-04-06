@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 const VideoCard = (props) => {
   const navigate = useNavigate()
-  const { channelVideo, videoId, thumbnail, lengthText, channelThumbnail, title, viewCount, publishedTimeText, channelTitle } = props
+  const { channelVideo, videoId, thumbnail, lengthText, channelThumbnail, title, viewCount, publishedTimeText, channelTitle, relatedVideoId } = props
   const formatter = Intl.NumberFormat('en', {notation: 'compact'})
   return (
     <div
@@ -11,7 +11,7 @@ const VideoCard = (props) => {
       onClick={() => navigate(`/video/${videoId}`)}
     >
       <div className={`thumbnail relative ${channelVideo ? 'w-1/2 h-24 mr-4 overflow-hidden' : 'w-full h-52'}`}>
-        <img src={thumbnail?`${thumbnail[0].url}`:''} className={`w-full h-full ${channelVideo ? 'rounded-xl' : ''}`} alt="" />
+        <img src={typeof(relatedVideoId) === 'undefined'?`${thumbnail[0].url}`:`${thumbnail[1].url}`} className={`w-full h-full ${channelVideo ? 'rounded-xl' : ''}`} alt="" />
         <span className='absolute bottom-1 right-1 bg-black text-white rounded-md text-xs font-semibold px-1 py-0.5'>{lengthText}</span>
       </div>
       <div className={`flex h-24 bg-[#0f0f0f] ${channelVideo ? 'w-1/2' : ''}`}>
@@ -25,10 +25,10 @@ const VideoCard = (props) => {
           <div className={`video-info flex text-xs font-semibold opacity-60 ${channelVideo ? 'flex-col' : 'items-center'}`}>
             <p className=''>
               {channelTitle? `${channelTitle}`:''}
-              {channelTitle && <div className="w-1 h-1 bg-white mx-1 rounded-full inline-flex"></div>}
+              {channelTitle && <span className="w-1 h-1 bg-white mx-1 rounded-full inline-flex"></span>}
               {formatter.format(viewCount)} views
-              {channelTitle && <div className="w-1 h-1 bg-white mx-1 rounded-full inline-flex"></div>}
-              {!channelTitle && <div></div>}
+              {channelTitle && <span className="w-1 h-1 bg-white mx-1 rounded-full inline-flex"></span>}
+              {!channelTitle && <p></p>}
               {publishedTimeText}
             </p>
           </div>
