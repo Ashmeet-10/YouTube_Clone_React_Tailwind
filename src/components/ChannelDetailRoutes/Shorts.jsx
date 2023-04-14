@@ -21,7 +21,7 @@ const Shorts = () => {
   return (
     <div className='flex flex-wrap mt-6 text-white overflow-hidden'>
       {shorts?.map((short, idx) => (
-        <div key={idx} className="relative w-1/3 p-0.5 cursor-pointer"
+        <div key={idx} className="relative w-1/3 p-0.5 cursor-pointer xs:w-1/4 md:w-1/5 lg:w-1/6 xl:w-[14.285%] min-[1450px]:w-[12.5%] 2xl:w-[11.111%] 3xl:w-[10%]"
           onClick={() => navigate(`/shorts/${short.videoId}`)}
         >
           <img src={short.thumbnail ? `${short.thumbnail[0].url}` : ''} className="opacity-60 rounded-lg" alt="" />

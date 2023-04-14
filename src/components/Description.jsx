@@ -17,7 +17,7 @@ const Description = (props) => {
   }
 
   return (
-    <div className={`description w-screen pb-2 relative px-4 bg-[#0f0f0f] text-white ${shorts ? 'h-[60vh] overflow-y-auto' : ''}`}>
+    <div className={`description pb-2 relative px-4 bg-[#0f0f0f] text-white ${shorts ? 'h-[60vh] overflow-y-auto' : ''}`}>
       <div className="flex justify-between items-center py-4 border-gray-600 border-b-[1px]">
         <span className='text-xl font-bold blur-[0.5px] shadow-white drop-shadow-lg text-white'>Description</span>
         <button

@@ -17,9 +17,11 @@ const ChannelVideos = () => {
   console.log(data)
 
   return (
-    <div className='mt-8 pb-8 px-4 space-y-4 bg-[#0f0f0f]'>
+    <div className='mt-8 pb-8 px-4 bg-[#0f0f0f] xs:grid xs:grid-cols-2 min-[860px]:grid-cols-3 lg:grid-cols-4 lg:gap-2 3xl:grid-cols-5'>
       {data.data.map((video, idx) => (
-        <VideoCard key={idx} {...video} channelVideo='true' />
+        <div key={idx} className="my-6 mx-2">
+          <VideoCard {...video} channelVideo='true' />
+        </div>
       ))}
     </div>
   )

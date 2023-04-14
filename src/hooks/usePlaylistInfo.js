@@ -6,9 +6,10 @@ export const fetchPlaylistInfo = async (playlistId) => {
     return response
 }
 
-export default function usePlaylistInfo(playlistId) {
+export default function usePlaylistInfo(playlistId, enabled = true) {
     return useQuery({
         queryKey: ['playlistInfo', playlistId],
         queryFn: () => fetchPlaylistInfo(playlistId),
+        enabled: enabled,
     })
 }

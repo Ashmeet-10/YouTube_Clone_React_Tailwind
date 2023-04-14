@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* create a youtube scrollbar */
+.scrollbar::-webkit-scrollbar, html::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scrollbar::-webkit-scrollbar-track, html::-webkit-scrollbar-track {
+  background: #0f0f0f;
+}
+
+.scrollbar::-webkit-scrollbar-thumb, html::-webkit-scrollbar-thumb {
+  background-color: #0f0f0f;
+  border-radius: 20px;
+}
+.scrollbar:hover::-webkit-scrollbar-thumb, html:hover::-webkit-scrollbar-thumb {
+  background-color: #a1a1a1;
+  border-radius: 20px;
+}

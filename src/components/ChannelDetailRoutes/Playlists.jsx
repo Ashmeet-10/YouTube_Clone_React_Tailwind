@@ -19,16 +19,18 @@ const Playlists = () => {
   let channelTitle = data.meta.title
 
   return (
-    <div className='p-4 space-y-3'>
+    <div className='p-2 xs:grid md:gap-2 lg:gap-4 xs:grid-cols-2 min-[860px]:grid-cols-3 lg:grid-cols-4 3xl:grid-cols-5'>
       {playlists?.map((playlist, idx1) => (
         <div key={idx1} className="">
-          {playlist.type === "playlist" && <PlaylistCard {...playlist} channelTitle={channelTitle} />}
+          {playlist.type === "playlist" && <div className="mx-1 my-6">
+            <PlaylistCard {...playlist} channelTitle={channelTitle} channelPlaylist={true} />
+          </div>}
 
           {playlist.type === "playlist_listing" && <div>
             <span className='font-semibold'>{playlist.title}</span>
             <div className="my-8">
               {playlist?.data.map((actualPlaylist, idx2) => (
-                <PlaylistCard {...actualPlaylist} key={idx2} channelTitle={channelTitle} />
+                <PlaylistCard {...actualPlaylist} key={idx2} channelTitle={channelTitle} channelPlaylist={true} />
               ))}
             </div>
           </div>}

@@ -7,9 +7,10 @@ export const fetchChannelAbout = async (channelId) => {
     return response
 }
 
-export default function useChannelAbout(channelId) {
+export default function useChannelAbout(channelId, enabled = true) {
     return useQuery({
         queryKey: ['channel', channelId, 'about'],
         queryFn: () => fetchChannelAbout(channelId),
+        enabled: enabled,
     })
 }

@@ -5,9 +5,10 @@ import { channelTabs } from '../utils/constants'
 import { Loading } from './'
 import useChannelAbout from '../hooks/channelHooks/useChannelAbout'
 
-const ChannelDetail = () => {
+const ChannelDetail = ({ setId }) => {
   const navigate = useNavigate()
   const { id } = useParams()
+  setId(() => id)
   const { data, status, isError, isLoading } = useChannelAbout(id)
   let channelDetails = data
   const [channelTab, setChannelTab] = useState('home')
@@ -22,19 +23,8 @@ const ChannelDetail = () => {
 
   return (
     <div className='bg-[#0f0f0f] text-white'>
-      <div className="flex justify-between items-center px-3 py-2">
-        <div className="flex items-center">
-          <img src={Youtube_icon} width="35px" height="35px" alt="" className='inline mr-3 cursor-pointer' onClick={() => navigate(`/`)} />
-          <span className='font-semibold line-clamp-1 mx-2'>{channelDetails.title}</span>
-        </div>
-        <div className="search mr-4">
-          <button type='button'>
-            <i className="fa-solid fa-magnifying-glass opacity-80"></i>
-          </button>
-        </div>
-      </div>
       <div className="banner">
-        <img src={channelDetails.banner ? `${channelDetails.banner[0].url}` : ''} alt="" />
+        <img src={channelDetails.banner ? `${channelDetails.banner[2].url}` : ''} className='w-full' alt="" />
       </div>
       <div className="bg-[#212121] px-3 pt-3 flex flex-col items-center">
         <img src={channelDetails.avatar ? `${channelDetails.avatar[1].url}` : ''} className="w-14 h-14 rounded-full" alt="Icon" />
@@ -51,7 +41,7 @@ const ChannelDetail = () => {
         <button className='bg-white w-full mt-4 text-black text-sm font-semibold py-2 rounded-3xl hover:bg-gray-200'>Subscribe</button>
       </div>
 
-      <div className="overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none] bg-[#212121]">
+      <div className="overflow-x-auto lg:sticky lg:top-16 lg:left-0 z-10 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none] bg-[#212121]">
         <div className="py-4">
           {channelTabs.map((tab) => (
             <Link

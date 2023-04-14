@@ -23,7 +23,7 @@ const Comments = (props) => {
   }
 
   return (
-    <div className={`comment-section items-center relative pt-4 px-2 bg-[#0f0f0f] text-white ${(shorts || post) ? 'h-[60vh] overflow-y-auto' : ''}`}>
+    <div className={`comment-section w-full scrollbar items-center relative pt-4 px-2 bg-[#0f0f0f] text-white ${(shorts || post) ? 'h-[60vh] overflow-y-auto' : ''}`}>
       <div className="flex justify-between items-center pb-4 border-gray-600 border-b-[1px]">
         <span className='text-xl font-bold blur-[0.5px] shadow-white drop-shadow-lg text-white'>Comments</span>
         <button
@@ -48,10 +48,10 @@ const Comments = (props) => {
       <div className={`flex flex-col text-sm font-semibold opacity-90`}>
         {comments?.data?.map((comment, idx) => (
           <div key={idx} className="flex my-6">
-            <div className="w-1/5">
+            <div className="w-1/5 xxs:w-[14%] sm:w-[10%] md:w-[9%] xl:w-[7%] 2xl:w-[6%]">
               <img src={comment.authorThumbnail[1].url} className="w-12 h-12 rounded-full mr-4" alt="" />
             </div>
-            <div className="flex flex-col w-4/5">
+            <div className="flex flex-col w-4/5 xxs:w-[86%] sm:w-[90%] md:w-[91%] xl:w-[93%]">
               <div className="flex items-center space-x-2 mb-2">
                 <span>{comment.authorText}</span>
                 <div className="h-1 w-1 bg-white rounded-full"></div>

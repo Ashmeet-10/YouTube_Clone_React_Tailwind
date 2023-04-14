@@ -13,7 +13,6 @@ const Community = () => {
   for(let i=0; i<30; i++){
     obj[`p${i}`] = 'line-clamp-4'
   }
-  console.log(obj)
   const [para, setPara] = useState(obj)
 
   if (isLoading) {
@@ -30,7 +29,7 @@ const Community = () => {
   return (
     <div className='mt-4 px-4 space-y-4 relative'>
       {posts?.map((post, idx) => (
-        <div key={idx} className="pb-3 border-gray-700 border-b-[1px]">
+        <div key={idx} className="pb-3 border-gray-700 border-b-[1px] lg:max-w-4xl lg:border-gray-600 lg:border-2 lg:mx-auto lg:p-6 lg:rounded-2xl 4xl:max-w-6xl">
           <div className="flex items-center space-x-2">
             <img src={post.authorThumbnail ? `https:${post.authorThumbnail[1].url}` : ''} className="w-8 h-8 rounded-full" alt="" />
             <div className="flex flex-col">
@@ -64,10 +63,10 @@ const Community = () => {
             </div>}
 
             {post.attachment && post.attachment.type === "image" && <div>
-              <img src={post.attachment ? `${post.attachment.image[0].url}` : ''} className="w-full my-4" alt="" />
+              <img src={post.attachment ? `${post.attachment.image[0].url}` : ''} className="w-full my-4 max-w-xl" alt="" />
             </div>}
 
-            {post.attachment && post.attachment.type === "video" && <div>
+            {post.attachment && post.attachment.type === "video" && <div className='max-w-lg'>
               <VideoCard {...post.attachment} />
             </div>}
 
@@ -100,7 +99,7 @@ const Community = () => {
           </div>
         </div>
       ))}
-      <div ref={ref} className="top-0 left-0 fixed z-10 translate-y-[100vh] duration-700 ease-in-out">
+      <div ref={ref} className="top-0 left-0 fixed w-full z-10 translate-y-[100vh] duration-700 ease-in-out">
         <Comments id={currPostId} post="true" postCommentRef={ref} />
       </div>
     </div>

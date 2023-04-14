@@ -48,10 +48,10 @@ const ShortsCard = () => {
         </div>
       </div>
 
-      <div ref={commentRef} className="fixed translate-y-[100vh] z-20 duration-1000 ease-in-out">
+      <div ref={commentRef} className="fixed w-full translate-y-[100vh] z-20 duration-1000 ease-in-out">
         <Comments id={id} shorts="true" commentRef={commentRef} />
       </div>
-      <div ref={descRef} className="fixed translate-y-[100vh] z-20 duration-1000 ease-in-out">
+      <div ref={descRef} className="fixed w-full translate-y-[100vh] z-20 duration-1000 ease-in-out">
         <Description id={shortsInfo.channelId} videoInfo={shortsInfo} shorts="true" descRef={descRef} />
       </div>
     </div>

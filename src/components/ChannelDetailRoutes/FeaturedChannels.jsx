@@ -8,10 +8,10 @@ const FeaturedChannelsCard = (props) => {
   const { thumbnail, title, subscriberCount, videoCount, channelId } = props
   return (
     <div className="flex items-center cursor-pointer mb-6" onClick={() => navigate(`/channel/${channelId}`)}>
-      <div className="w-1/2 flex justify-center items-center">
+      <div className="w-1/2 flex justify-center items-center xs:w-40">
         <img src={thumbnail ? `https:${thumbnail[2].url}` : ''} alt="" className='w-20 h-20 rounded-full overflow-hidden' />
       </div>
-      <div className="w-1/2 flex flex-col">
+      <div className="w-1/2 flex flex-col xs:w-40">
         <span className='text-sm font-semibold'>{title}</span>
         <span className='text-xs font-semibold opacity-70'>{subscriberCount} subscribers</span>
         <span className='text-xs font-semibold opacity-70'>{videoCount} videos</span>
