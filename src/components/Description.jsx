@@ -17,13 +17,14 @@ const Description = (props) => {
   }
 
   return (
-    <div className={`description pb-2 relative px-4 bg-[#0f0f0f] text-white ${shorts ? 'h-[60vh] overflow-y-auto' : ''}`}>
+    <div className={`description scrollbar pb-2 relative px-4 bg-[#0f0f0f] text-white ${shorts ? 'h-[60vh] overflow-y-auto lg:bg-[#383838]' : ''}`}>
       <div className="flex justify-between items-center py-4 border-gray-600 border-b-[1px]">
         <span className='text-xl font-bold blur-[0.5px] shadow-white drop-shadow-lg text-white'>Description</span>
         <button
           onClick={() => {
             if (shorts) {
-              descRef.current.classList.remove('translate-y-[40vh]')
+              descRef.current.classList.remove('translate-y-[calc(40vh-3rem)]')
+              descRef.current.classList.remove('lg:translate-y-[15vh]')
               descRef.current.classList.add('translate-y-[100vh]')
             }
             else {
@@ -52,7 +53,7 @@ const Description = (props) => {
         </div>
       </div>
 
-      <p className="whitespace-pre-wrap mt-6 pb-10 leading-4 opacity-90 font-semibold font-sans text-sm border-gray-700 border-b-[6px] max-w-[100vw] overflow-hidden">{videoInfo.description}</p>
+      <p className="whitespace-pre-wrap mt-6 pb-10 leading-4 opacity-90 font-medium text-sm border-gray-700 border-b-[6px] max-w-[100vw] overflow-hidden">{videoInfo.description}</p>
 
       <div className="">
         <div className="flex items-center space-x-3 my-4">

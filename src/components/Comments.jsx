@@ -23,18 +23,15 @@ const Comments = (props) => {
   }
 
   return (
-    <div className={`comment-section w-full scrollbar items-center relative pt-4 px-2 bg-[#0f0f0f] text-white ${(shorts || post) ? 'h-[60vh] overflow-y-auto' : ''}`}>
+    <div className={`comment-section w-full scrollbar items-center relative pt-4 px-2 bg-[#0f0f0f] text-white ${(shorts) ? 'h-[60vh] overflow-y-auto lg:bg-[#383838]' : ''} ${post?'lg:max-w-4xl 4xl:max-w-6xl':''}`}>
       <div className="flex justify-between items-center pb-4 border-gray-600 border-b-[1px]">
         <span className='text-xl font-bold blur-[0.5px] shadow-white drop-shadow-lg text-white'>Comments</span>
-        <button
+        {!post && <button
           onClick={() => {
             if (shorts) {
               commentRef.current.classList.add('translate-y-[100vh]')
-              commentRef.current.classList.remove('translate-y-[40vh]')
-            }
-            else if (post) {
-              postCommentRef.current.classList.add('translate-y-[100vh]')
-              postCommentRef.current.classList.remove('translate-y-[40vh]')
+              commentRef.current.classList.remove('translate-y-[calc(40vh-3rem)]')
+              commentRef.current.classList.remove('lg:translate-y-[15vh]')
             }
             else {
               setHideComments(true)
@@ -42,16 +39,16 @@ const Comments = (props) => {
           }}
         >
           <i className="fa-solid fa-xmark text-2xl"></i>
-        </button>
+        </button>}
       </div>
 
-      <div className={`flex flex-col text-sm font-semibold opacity-90`}>
+      <div className={`flex flex-col text-sm font-medium opacity-90`}>
         {comments?.data?.map((comment, idx) => (
           <div key={idx} className="flex my-6">
-            <div className="w-1/5 xxs:w-[14%] sm:w-[10%] md:w-[9%] xl:w-[7%] 2xl:w-[6%]">
+            <div className="w-16">
               <img src={comment.authorThumbnail[1].url} className="w-12 h-12 rounded-full mr-4" alt="" />
             </div>
-            <div className="flex flex-col w-4/5 xxs:w-[86%] sm:w-[90%] md:w-[91%] xl:w-[93%]">
+            <div className="flex flex-col w-11/12">
               <div className="flex items-center space-x-2 mb-2">
                 <span>{comment.authorText}</span>
                 <div className="h-1 w-1 bg-white rounded-full"></div>

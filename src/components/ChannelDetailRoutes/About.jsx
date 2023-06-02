@@ -18,7 +18,7 @@ const About = () => {
   return (
     <div className='mt-4 px-4 pb-4'>
       About
-      <pre className='font-sans whitespace-pre-line text-sm font-normal leading-1 mt-4'>{about.description}</pre>
+      <p className='whitespace-pre-line text-sm font-normal leading-1 mt-4'>{about.description}</p>
 
       <div className="flex flex-col space-y-2 py-4">
         {about.links && about?.links.map((link, idx) => (

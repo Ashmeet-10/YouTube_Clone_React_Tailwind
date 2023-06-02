@@ -7,7 +7,7 @@ const PlaylistCard = (props) => {
   return (
     <div className={`flex cursor-pointer text-white ${channelPlaylist?'xs:m-0 md:flex-col xl:space-y-4':''} ${relatedVideoId ? 'lg:w-[24vw]' : ''} ${search?'flex-col':''}`} onClick={() => navigate(`/playlist/${playlistId}`)}>
       <div className={`relative overflow-hidden ${channelPlaylist?'md:w-full':''} ${search?'':'w-[55%] rounded-lg'}`}>
-        <img src={thumbnail ? (search?`${thumbnail[1].url}`:`${thumbnail[0].url}`) : ''} className={`xs:rounded-lg sm:rounded-xl ${relatedVideoId ? 'lg:rounded-2xl' : ''} ${search?'w-full':''}`} alt="" />
+        <img src={thumbnail ? (`${thumbnail[thumbnail.length-1].url}`) : ''} className={`xs:rounded-lg sm:rounded-xl ${relatedVideoId ? 'lg:rounded-2xl' : ''} ${search?'w-full':''}`} alt="" />
         <div className="absolute right-0 top-0 w-1/3 h-full opacity-80 bg-black text-white xs:rounded-tr-lg xs:rounded-br-lg sm:rounded-tr-xl sm:rounded-br-xl">
         </div>
         <div className="flex flex-col justify-center items-center absolute right-0 top-0 w-1/3 h-full text-white text-sm space-y-1">

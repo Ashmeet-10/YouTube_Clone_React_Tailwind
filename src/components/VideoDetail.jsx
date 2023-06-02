@@ -5,6 +5,7 @@ import { Videos, Comments, Description, Loading } from './'
 import useVideoInfo from '../hooks/useVideoInfo'
 import useChannelAbout from '../hooks/channelHooks/useChannelAbout'
 import useComments from '../hooks/useComments'
+import useRelatedVideos from '../hooks/useRelatedVideos'
 
 const VideoDetail = () => {
   const { id } = useParams()
@@ -12,15 +13,16 @@ const VideoDetail = () => {
   const { data: videoInfo, isError: isError1, isLoading: isLoading1 } = useVideoInfo(id)
   const { data: channelDetails, isError: isError2, isLoading: isLoading2 } = useChannelAbout(videoInfo?.channelId, !isLoading1)
   const { data: comments, isError: isError3, isLoading: isLoading3 } = useComments(id)
+  const { data: relatedVideos, isError: isError4, isLoading: isLoading4, } = useRelatedVideos(id)
   const formatter = Intl.NumberFormat('en', { notation: 'compact' })
   const [hideDescription, setHideDescription] = useState(true)
   const [hideComments, setHideComments] = useState(true)
 
-  if (isLoading1 || isLoading2 || isLoading3) {
+  if (isLoading1 || isLoading2 || isLoading3 || isLoading4) {
     return <Loading classes="h-[100vh] items-center" />
   }
 
-  if (isError1 || isError2 || isError3) {
+  if (isError1 || isError2 || isError3 || isError4) {
     return <span>Error</span>
   }
   return (
@@ -37,7 +39,7 @@ const VideoDetail = () => {
             <div className="info flex space-x-3 text-xs font-semibold">
               <p className="opacity-60 whitespace-nowrap">{formatter.format(videoInfo.viewCount)} views</p>
               <p className="opacity-60 whitespace-nowrap">{videoInfo.uploadDate}</p>
-              <pre onClick={() => setHideDescription(false)} className="font-sans font-bold bg-gradient-to-r from-white via-white to-black text-transparent bg-clip-text opacity-80 truncate leading-4 cursor-pointer">{videoInfo.description}</pre>
+              <p onClick={() => setHideDescription(false)} className="font-bold bg-gradient-to-r from-white via-white to-gray-600 text-transparent bg-clip-text opacity-80 truncate leading-4 cursor-pointer">{videoInfo.description}</p>
               <span onClick={() => setHideDescription(false)} className="cursor-pointer">...more</span>
             </div>
             <div className="flex items-center justify-between my-4 font-semibold text-white border-gray-600 border-b-[1px] pb-3">
@@ -54,7 +56,7 @@ const VideoDetail = () => {
           {!hideDescription && <Description id={videoInfo.channelId} videoInfo={videoInfo} setHideDescription={setHideDescription} />}
 
           <div className="comments px-2 pb-4 overflow-x-hidden">
-            {hideComments && hideDescription && <div onClick={() => setHideComments(false)} className="flex justify-between cursor-pointer">
+            {hideComments && hideDescription && <div onClick={() => setHideComments(false)} className="flex justify-between cursor-pointer mb-4">
               <div className="flex items-center space-x-1 font-semibold opacity-90">
                 <span>Comments</span>
                 <div className="h-1 w-1 bg-white rounded-full"></div>
@@ -68,14 +70,14 @@ const VideoDetail = () => {
 
             {hideComments === false && hideDescription && <Comments setHideComments={setHideComments} id={id} />}
             {hideComments && hideDescription && <div className="lg:hidden">
-              <Videos relatedVideoId={id} />
+              <Videos videos={relatedVideos.data} relatedVideoId={id} />
             </div>}
           </div>
         </div>
       </div>
       <div className="hidden lg:block lg:w-[35%] lg:ml-2 lg:overflow-hidden">
         <div className="lg:h-[calc(100vh-4rem)] lg:overflow-y-auto overflow-x-hidden scrollbar">
-          <Videos relatedVideoId={id} />
+          <Videos videos={relatedVideos.data} relatedVideoId={id} />
         </div>
       </div>
     </div>

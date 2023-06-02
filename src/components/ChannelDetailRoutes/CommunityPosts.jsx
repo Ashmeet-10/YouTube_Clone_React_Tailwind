@@ -1,10 +1,11 @@
 import React, { useState, useRef } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { VideoCard, Comments , Loading } from '../'
 import useChannelPosts from '../../hooks/channelHooks/useChannelPosts'
 
 const Community = () => {
   const { id } = useParams()
+  const navigate = useNavigate()
   const { data, status, isError, isLoading } = useChannelPosts(id)
   const ref = useRef(null)
   const [currPostId, setCurrPostId] = useState('')
@@ -27,9 +28,9 @@ const Community = () => {
 
 
   return (
-    <div className='mt-4 px-4 space-y-4 relative'>
+    <div className='mt-4 p-4 space-y-4 relative'>
       {posts?.map((post, idx) => (
-        <div key={idx} className="pb-3 border-gray-700 border-b-[1px] lg:max-w-4xl lg:border-gray-600 lg:border-2 lg:mx-auto lg:p-6 lg:rounded-2xl 4xl:max-w-6xl">
+        <div key={idx} className="pb-3 border-gray-700 border-b lg:max-w-4xl lg:border-gray-400 lg:border lg:mx-auto lg:p-6 lg:rounded-2xl 4xl:max-w-6xl">
           <div className="flex items-center space-x-2">
             <img src={post.authorThumbnail ? `https:${post.authorThumbnail[1].url}` : ''} className="w-8 h-8 rounded-full" alt="" />
             <div className="flex flex-col">
@@ -63,7 +64,7 @@ const Community = () => {
             </div>}
 
             {post.attachment && post.attachment.type === "image" && <div>
-              <img src={post.attachment ? `${post.attachment.image[0].url}` : ''} className="w-full my-4 max-w-xl" alt="" />
+              <img src={post.attachment ? `${post.attachment.image[post.attachment.image.length-1].url}` : ''} className="w-full my-4 max-w-xl" alt="" />
             </div>}
 
             {post.attachment && post.attachment.type === "video" && <div className='max-w-lg'>
@@ -78,16 +79,16 @@ const Community = () => {
               </div>
               <div
                 onClick={() => {
-                  setCurrPostId(() => post.postId)
-                  if (ref.current.classList.contains('translate-y-[100vh]')) {
-                    ref.current.classList.remove('translate-y-[100vh]')
-                    ref.current.classList.add('translate-y-[40vh]')
-                  }
-                  else {
-                    ref.current.classList.add('translate-y-[100vh]')
-                    ref.current.classList.remove('translate-y-[40vh]')
-
-                  }
+                  navigate(`/post/${post.postId}`)
+                  // setCurrPostId(() => post.postId)
+                  // if (ref.current.classList.contains('translate-y-[100vh]')) {
+                  //   ref.current.classList.remove('translate-y-[100vh]')
+                  //   ref.current.classList.add('translate-y-[40vh]')
+                  // }
+                  // else {
+                  //   ref.current.classList.add('translate-y-[100vh]')
+                  //   ref.current.classList.remove('translate-y-[40vh]')
+                  // }
                 }}
                 className="cursor-pointer"
               >
